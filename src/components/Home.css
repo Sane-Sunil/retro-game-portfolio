@@ -1,7 +1,7 @@
 #home {
   width: 100%;
   min-height: 100vh;
-  margin: 20px 0;
+  margin: 0;
   padding: 20px;
   background-image: url(../assets/sane.png);
   background-size: cover;

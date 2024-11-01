@@ -1,7 +1,8 @@
 #about {
     width: 100%;
     min-height: 100vh;
-    margin: 20px 0;
+    margin-bottom: -20px;
+    margin-top: -20px;
     padding: 20px;
     background-color: var(--section-background);
     border-radius: 8px;
@@ -12,7 +13,7 @@
 
 .about-content {
     position: relative;
-    z-index: 1;
+    /* z-index: 1; */
     display: flex;
     flex-direction: column;
     align-items: center;
