@@ -8,15 +8,34 @@ function Projects() {
   const projects = [
     {
       id: 1,
-      title: "Project 1",
-      icon: "🎮",
+      title: "Personal-weather-data",
+      icon: "☀️",
       rarity: "legendary",
-      description: "A detailed description of project 1 and its features.",
-      technologies: ["React", "Node.js", "MongoDB"],
-      github: "https://github.com/yourusername/project1",
-      demo: "https://project1-demo.com"
+      description: "Collects weather data from a esp with dht11 sensor and displays it in a React app.",
+      technologies: ["React", "Node.js", "Arduino"],
+      github: "https://github.com/Sane-Sunil/Personal-weather-data",
+      demo: "https://personal-weather-data.onrender.com/"
     },
-    // Add more projects...
+    {
+      id: 2,
+      title: "Profile",
+      icon: "👦",
+      rarity: "common",
+      description: "A profile website to showcase my skills and projects.",
+      technologies: ["html", "css", "js"],
+      github: "https://github.com/Sane-Sunil/Profile",
+      demo: "https://sane-sunil.netlify.app/"
+    }
+    {
+      id: 3,
+      title: "To-do",
+      icon: "📃",
+      rarity: "rare",
+      description: "A to-do list app to manage your tasks. It stores data on local storage.",
+      technologies: ["Node.js", "React"],
+      github: "https://github.com/Sane-Sunil/to-do",
+      demo: ""
+    }
   ];
 
   return (
@@ -25,7 +44,7 @@ function Projects() {
       {!gameStarted ? (
         <div className="game-menu">
           <button className="game-button" onClick={() => setGameStarted(true)}>
-            OPEN INVENTORY
+            INVENTORY
           </button>
         </div>
       ) : (
