@@ -112,11 +112,40 @@ li {
   color: white;
 }
 
+.project-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.project-links a {
+  color: aquamarine;
+  text-decoration: none;
+  padding: 4px 8px;
+  border: 1px solid aquamarine;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.project-links a:hover {
+  background-color: aquamarine;
+  color: #1a1a1a;
+}
+
+.tech-tag {
+  background: #2c2c2c;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8em;
+}
+
 .legendary .project-tooltip::before {
   content: "Legendary";
   color: #ffd700;
   display: block;
   margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .rare .project-tooltip::before {
@@ -124,10 +153,43 @@ li {
   color: #9370db;
   display: block;
   margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.uncommon .project-tooltip::before {
+  content: "Uncommon";
+  color: #32cd32;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.common .project-tooltip::before {
+  content: "Common";
+  color: #ffffff;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .tech-stack {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+}
+
+.legendary .project-icon {
+  text-shadow: 0 0 5px #ffd700;
+}
+
+.rare .project-icon {
+  text-shadow: 0 0 5px #9370db;
+}
+
+.uncommon .project-icon {
+  text-shadow: 0 0 5px #32cd32;
+}
+
+.common .project-icon {
+  text-shadow: 0 0 5px #ffffff;
 }
