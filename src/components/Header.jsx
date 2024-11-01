@@ -42,8 +42,8 @@ function Header() {
       <nav>
         <a href="header" ref={el => navItems.current[0] = el} onMouseEnter={() => handleMouseEnter(0)}>Home</a>
         <a href="#about" ref={el => navItems.current[1] = el} onMouseEnter={() => handleMouseEnter(1)}>About</a>
-        <a href="#projects" ref={el => navItems.current[2] = el} onMouseEnter={() => handleMouseEnter(2)}>Projects</a>
-        <a href="#skills" ref={el => navItems.current[3] = el} onMouseEnter={() => handleMouseEnter(3)}>Skills</a>
+        <a href="#skills" ref={el => navItems.current[2] = el} onMouseEnter={() => handleMouseEnter(2)}>Skills</a>
+        <a href="#projects" ref={el => navItems.current[3] = el} onMouseEnter={() => handleMouseEnter(3)}>Projects</a>
         <a href="#contact" ref={el => navItems.current[4] = el} onMouseEnter={() => handleMouseEnter(4)}>Contact</a>
       </nav>
     </header>
