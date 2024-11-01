@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+  --primary-color: #00ffcc; /* Neon teal */
+  --secondary-color: #ff007f; /* Neon pink */
+  --background-color: #1a1a1a; /* Dark background */
+  --text-color: #ffffff; /* White text */
+  --section-background: #2a2a2a; /* Slightly lighter dark background */
+  --font-family: 'Press Start 2P', cursive; /* Retro gaming font for headings */
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  width: 100vw;
+  font-family: 'VT323', monospace; 
+  font-size: 1.5rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100vw;
+}
+
+h1, h2 {
+  font-family: 'Press Start 2P', cursive; /* Keep the original font for headings */
+  color: var(--text-color);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+header {
+  width: 100%;
+  padding: 20px;
+  background-color: var(--primary-color);
+  text-align: center;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.447);
+}
+
+nav a {
+  margin: 0 15px;
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--secondary-color);
+}
+
+section {
+  width: 100%;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: var(--section-background);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  color: var(--text-color);
+  transition: background-color 0.3s;
+}
+
+li:hover {
+  background-color: var(--secondary-color);
+}

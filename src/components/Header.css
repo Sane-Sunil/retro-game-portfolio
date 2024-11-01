@@ -1,0 +1,38 @@
+header {
+  width: 100%;
+  padding: 20px;
+  background-color: rgba(0, 115, 48, 0.83);
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  position: fixed;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.tagline {
+  font-size: 1.2em;
+  color: var(--text-color);
+  margin: 5px 0;
+  font-style: italic;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  margin: 0 15px;
+  color: rgb(168, 168, 168);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+  font-size: 2rem;
+}
+
+nav a:hover, nav a:focus {
+  color: white;
+  font-size: 3rem;
+}
