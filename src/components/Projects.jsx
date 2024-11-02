@@ -38,11 +38,40 @@ function Projects() {
     },
   ];
 
+  const handleSlotClick = (index, project) => {
+    if (project) {
+      setSelectedSlot(selectedSlot === index ? null : index);
+    }
+  };
+
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setSelectedSlot(null);
+    }
+  };
+
+  const handleLinkClick = (e) => {
+    e.stopPropagation();  // Prevent slot deselection when clicking links
+  };
+
   const renderProjectTooltip = (project) => {
     if (!project) return null;
     
+    const rarityColorClass = {
+      legendary: 'rarity-legendary',
+      rare: 'rarity-rare',
+      uncommon: 'rarity-uncommon',
+      common: 'rarity-common'
+    }[project.rarity];
+    
     return (
-      <div className="project-tooltip">
+      <div 
+        className={`project-tooltip ${project.rarity}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={`rarity ${rarityColorClass}`}>
+          {project.rarity.charAt(0).toUpperCase() + project.rarity.slice(1)}
+        </div>
         <h3>{project.title}</h3>
         <p>{project.description}</p>
         <div className="tech-stack">
@@ -51,9 +80,23 @@ function Projects() {
           ))}
         </div>
         <div className="project-links">
-          <a href={project.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a 
+            href={project.github} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            onClick={handleLinkClick}
+          >
+            GitHub
+          </a>
           {project.demo && (
-            <a href={project.demo} target="_blank" rel="noopener noreferrer">Demo</a>
+            <a 
+              href={project.demo} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={handleLinkClick}
+            >
+              Demo
+            </a>
           )}
         </div>
       </div>
@@ -71,21 +114,29 @@ function Projects() {
         </div>
       ) : (
         <div className="minecraft-inventory">
-          <button className="exit-button" onClick={() => setGameStarted(false)}>EXIT</button>
-          <div className="inventory-grid">
+          <button 
+            className="exit-button" 
+            onClick={() => setGameStarted(false)}
+            aria-label="Exit inventory"
+          >
+            EXIT
+          </button>
+          <div className="tooltip-container">
+            {selectedSlot !== null && projects[selectedSlot] && 
+              renderProjectTooltip(projects[selectedSlot])
+            }
+          </div>
+          <div className="hotbar-grid">
             {Array(9).fill(null).map((_, index) => {
               const project = index < projects.length ? projects[index] : null;
               return (
                 <div 
                   key={index} 
                   className={`inventory-slot ${selectedSlot === index ? 'selected' : ''} ${project?.rarity || ''}`}
-                  onClick={() => project && setSelectedSlot(selectedSlot === index ? null : index)}
+                  onClick={() => handleSlotClick(index, project)}
                 >
                   {project && (
-                    <>
-                      <span className="project-icon">{project.icon}</span>
-                      {selectedSlot === index && renderProjectTooltip(project)}
-                    </>
+                    <span className="project-icon">{project.icon}</span>
                   )}
                 </div>
               );

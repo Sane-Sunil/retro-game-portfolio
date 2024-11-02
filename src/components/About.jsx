@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 
 function About() {
   const texts = [
-    "I'm 25 years old.",
+    "I'm 19 years old.",
     "Web developer.",
     "IoT enthusiast.",
     "Project manager at Inovus Labs, IEDC.",

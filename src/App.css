@@ -1,0 +1,25 @@
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: clamp(10px, 2vw, 20px);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 10px;
+    }
+}

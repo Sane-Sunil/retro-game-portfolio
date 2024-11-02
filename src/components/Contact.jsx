@@ -36,8 +36,8 @@ function Contact() {
               <p className="contact-item">
                 <i className="bi bi-linkedin"></i>
                 <span>LinkedIn: </span>
-                <a href="https://www.linkedin.com/in/sane-sunil" target="_blank" rel="noopener noreferrer">
-                  sane-sunil
+                <a href="https://www.linkedin.com/in/sane-sunil-55a552334/" target="_blank" rel="noopener noreferrer">
+                  Sane Sunil
                 </a>
               </p>
               

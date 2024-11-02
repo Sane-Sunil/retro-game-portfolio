@@ -56,37 +56,44 @@ li {
 
 .minecraft-inventory {
   position: relative;
-  width: 80%;
+  width: 95%;
+  max-width: 800px;
   height: 80vh;
-  margin: 0 auto;
+  margin: 2rem auto;
+  padding: 15px;
   background: rgba(0, 0, 0, 0.8);
   border: 2px solid #8b8b8b;
   border-radius: 0;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.inventory-grid {
+.hotbar-grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   gap: 4px;
   padding: 10px;
   background: #c6c6c6;
   border: 2px solid #373737;
+  width: 100%;
+  margin-top: auto;
 }
 
 .inventory-slot {
+  position: relative;
   aspect-ratio: 1;
+  min-width: 60px;
+  max-width: 80px;
   background: #8b8b8b;
   border: 2px outset #373737;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  position: relative;
 }
 
 .inventory-slot:hover {
@@ -103,17 +110,16 @@ li {
 }
 
 .project-tooltip {
-  position: absolute;
-  bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 250px;
+  position: relative;
+  width: min(300px, 90%);
   background: rgba(16, 16, 16, 0.94);
-  border: 1px solid #373737;
-  padding: 10px;
+  border: 2px solid #373737;
+  padding: 15px;
   z-index: 100;
   font-family: 'Minecraft', monospace;
   color: white;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .project-links {
@@ -129,11 +135,13 @@ li {
   border: 1px solid aquamarine;
   border-radius: 4px;
   transition: all 0.3s ease;
+  z-index: 101;
 }
 
 .project-links a:hover {
   background-color: aquamarine;
   color: #1a1a1a;
+  cursor: pointer;
 }
 
 .tech-tag {
@@ -197,3 +205,218 @@ li {
 .common .project-icon {
   text-shadow: 0 0 5px #ffffff;
 }
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .hotbar-grid {
+    grid-template-columns: repeat(9, 1fr);
+    gap: 2px;
+  }
+
+  .inventory-slot {
+    min-width: 40px;
+    max-width: 60px;
+  }
+
+  .project-tooltip {
+    width: 200px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .minecraft-inventory {
+    width: 100%;
+    padding: 5px;
+  }
+
+  .hotbar-grid {
+    gap: 1px;
+  }
+
+  .inventory-slot {
+    min-width: 30px;
+    max-width: 40px;
+  }
+
+  .project-icon {
+    font-size: 1.2rem;
+  }
+
+  .project-tooltip {
+    width: 180px;
+    font-size: 0.7rem;
+  }
+}
+
+.inventory-slot:hover .project-tooltip {
+  bottom: 120%;
+  max-height: min(400px, calc(70vh - 150px));
+  @supports (bottom: clamp(0px, 120%, 70vh)) {
+    bottom: clamp(120px, 120%, calc(70vh - 150px));
+  }
+}
+
+.project-tooltip::-webkit-scrollbar {
+  width: 8px;
+}
+
+.project-tooltip::-webkit-scrollbar-track {
+  background: #373737;
+}
+
+.project-tooltip::-webkit-scrollbar-thumb {
+  background: #686868;
+  border-radius: 4px;
+}
+
+.project-tooltip::-webkit-scrollbar-thumb:hover {
+  background: #8b8b8b;
+}
+
+.inventory-slot:nth-child(-n+3) .project-tooltip,
+.inventory-slot:nth-child(n+4):nth-child(-n+6) .project-tooltip,
+.inventory-slot:nth-child(n+7) .project-tooltip {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  bottom: auto;
+}
+
+.inventory-slot.selected::before {
+  content: '';
+  position: absolute;
+  top: -100vh;
+  left: -100vw;
+  right: -100vw;
+  bottom: -100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+
+.tooltip-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.project-tooltip {
+  pointer-events: auto;
+}
+
+/* Rarity styles */
+.legendary .project-tooltip {
+  border-color: #ffd700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.rare .project-tooltip {
+  border-color: #9370db;
+  box-shadow: 0 0 10px rgba(147, 112, 219, 0.3);
+}
+
+.uncommon .project-tooltip {
+  border-color: #32cd32;
+  box-shadow: 0 0 10px rgba(50, 205, 50, 0.3);
+}
+
+.common .project-tooltip {
+  border-color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Rarity text styles */
+.rarity {
+  font-size: 1.1em;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Rarity colors */
+.rarity-legendary {
+  color: #ffd700 !important;
+}
+
+.rarity-rare {
+  color: #9370db !important;
+}
+
+.rarity-uncommon {
+  color: #32cd32 !important;
+}
+
+.rarity-common {
+  color: #ffffff !important;
+}
+
+/* Tooltip border colors */
+.legendary .project-tooltip {
+  border-color: #ffd700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.rare .project-tooltip {
+  border-color: #9370db;
+  box-shadow: 0 0 10px rgba(147, 112, 219, 0.3);
+}
+
+.uncommon .project-tooltip {
+  border-color: #32cd32;
+  box-shadow: 0 0 10px rgba(50, 205, 50, 0.3);
+}
+
+.common .project-tooltip {
+  border-color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.exit-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #00ff9d;
+  color: #00ff9d;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.8rem;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 4px;
+}
+
+.exit-button:hover {
+  background: #00ff9d;
+  color: #000;
+  box-shadow: 
+    0 0 5px #00ff9d,
+    0 0 25px #00ff9d;
+  transform: translateY(-2px);
+}
+
+.exit-button:active {
+  transform: translateY(0);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .exit-button {
+    top: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    font-size: 0.7rem;
+  }
+}
+

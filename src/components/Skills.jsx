@@ -11,14 +11,16 @@ function Skills() {
     isJumping: false,
     width: 30,
     height: 30,
-    direction: 1 // 1 for right, -1 for left
+    direction: 1
   });
 
-  const MOVEMENT_SPEED = 0.8;
-  const MAX_SPEED = 6;
-  const FRICTION = 0.85;
-  const GRAVITY = 0.5;
-  const JUMP_FORCE = 15;
+  const KEYBOARD_MOVEMENT_SPEED = 0.4;
+  const TOUCH_MOVEMENT_SPEED = 0.4;
+  const KEYBOARD_MAX_SPEED = 4;
+  const TOUCH_MAX_SPEED = 4;
+  const FRICTION = 0.9;
+  const GRAVITY = 0.3;
+  const JUMP_FORCE = 12;
 
   const skills = [
     "JavaScript", "React", "CSS", "HTML", "Node.js",
@@ -27,26 +29,48 @@ function Skills() {
 
   const platformPositions = skills.map((skill, index) => ({
     name: skill,
-    x: index % 2 === 0 ? 20 : 60,
-    y: (index + 1) * 80
+    x: index % 2 === 0 ? 35 : 65,
+    y: (index + 1) * 150
   }));
 
   const checkCollision = (charPos, platform) => {
+    const platformWidth = 120;
+    const platformHeight = 40;
+
     const charLeft = (charPos.x / 100) * window.innerWidth - (character.width / 2);
     const charRight = charLeft + character.width;
     const charBottom = charPos.y;
     const charTop = charPos.y + character.height;
 
-    const platformLeft = (platform.x / 100) * window.innerWidth - 60; // half of platform width
-    const platformRight = platformLeft + 120; // platform width
+    const platformLeft = (platform.x / 100) * window.innerWidth - (platformWidth / 2);
+    const platformRight = platformLeft + platformWidth;
     const platformBottom = platform.y;
-    const platformTop = platform.y + 10; // platform height
+    const platformTop = platform.y + platformHeight;
 
     return charRight > platformLeft &&
            charLeft < platformRight &&
-           charBottom <= platformTop &&
-           charBottom >= platformBottom;
+           charBottom < platformTop &&
+           charTop > platformBottom;
   };
+
+  const [cameraY, setCameraY] = useState(0);
+
+  useEffect(() => {
+    if (gameStarted) {
+      const viewportHeight = window.innerHeight * 0.8;
+      const worldPosition = character.y - (viewportHeight * 0.3);
+      setCameraY(-worldPosition);
+    } else {
+      setCameraY(0);
+    }
+  }, [character.y, gameStarted]);
+
+  const [touchStart, setTouchStart] = useState(null);
+  const [isTouching, setIsTouching] = useState(false);
+  const [touchVelocityX, setTouchVelocityX] = useState(0);
+
+  const [isLeftPressed, setIsLeftPressed] = useState(false);
+  const [isRightPressed, setIsRightPressed] = useState(false);
 
   useEffect(() => {
     if (!gameStarted) return;
@@ -56,11 +80,64 @@ function Skills() {
 
     const handleKeyDown = (e) => {
       keysPressed.add(e.key);
-      if (e.key === ' ') e.preventDefault();
+      if (e.key === ' ' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        setCharacter(prev => {
+          if (!prev.isJumping) {
+            return {
+              ...prev,
+              velocityY: JUMP_FORCE,
+              isJumping: true
+            };
+          }
+          return prev;
+        });
+      }
     };
 
     const handleKeyUp = (e) => {
       keysPressed.delete(e.key);
+    };
+
+    // Touch controls
+    const handleTouchStart = (e) => {
+      const touch = e.touches[0];
+      setTouchStart(touch.clientX);
+      setIsTouching(true);
+    };
+
+    const handleTouchMove = (e) => {
+      if (!touchStart) return;
+      
+      const touch = e.touches[0];
+      const diff = touch.clientX - touchStart;
+      
+      // Convert touch movement to velocity
+      setTouchVelocityX(diff * 0.05);
+      setTouchStart(touch.clientX);
+    };
+
+    const handleTouchEnd = () => {
+      setTouchStart(null);
+      setIsTouching(false);
+      setTouchVelocityX(0);
+    };
+
+    // Jump on tap
+    const handleTap = (e) => {
+      e.preventDefault();
+      if (e.touches.length === 2) { // Two finger tap to jump
+        setCharacter(prev => {
+          if (!prev.isJumping) {
+            return {
+              ...prev,
+              velocityY: JUMP_FORCE,
+              isJumping: true
+            };
+          }
+          return prev;
+        });
+      }
     };
 
     const update = () => {
@@ -68,59 +145,52 @@ function Skills() {
         let newVelocityX = prev.velocityX;
         let newVelocityY = prev.velocityY;
         let newDirection = prev.direction;
+        let isJumping = prev.isJumping;
 
-        // Horizontal movement
-        if (keysPressed.has('ArrowLeft')) {
-          newVelocityX -= MOVEMENT_SPEED;
-          newDirection = -1;
-        }
-        if (keysPressed.has('ArrowRight')) {
-          newVelocityX += MOVEMENT_SPEED;
+        // Handle both keyboard and touch controls with same physics
+        if (keysPressed.has('ArrowLeft') || isLeftPressed) {
+          newVelocityX -= TOUCH_MOVEMENT_SPEED;
           newDirection = 1;
         }
+        if (keysPressed.has('ArrowRight') || isRightPressed) {
+          newVelocityX += TOUCH_MOVEMENT_SPEED;
+          newDirection = -1;
+        }
 
-        // Apply friction
-        if (!keysPressed.has('ArrowLeft') && !keysPressed.has('ArrowRight')) {
+        // Apply friction when no input
+        if (!keysPressed.has('ArrowLeft') && !keysPressed.has('ArrowRight') && !isLeftPressed && !isRightPressed) {
           newVelocityX *= FRICTION;
         }
 
-        // Apply gravity
         newVelocityY -= GRAVITY;
 
-        // Clamp velocities
-        newVelocityX = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, newVelocityX));
+        // Clamp velocity
+        newVelocityX = Math.max(-TOUCH_MAX_SPEED, Math.min(TOUCH_MAX_SPEED, newVelocityX));
 
-        // Calculate new position
-        let newX = prev.x + newVelocityX;
-        let newY = prev.y + newVelocityY;
+        let newX = prev.x + (newVelocityX * 0.3);
+        let newY = prev.y + (newVelocityY * 0.8);
 
-        // Check boundaries
+        // Clamp position
         newX = Math.max(10, Math.min(90, newX));
 
-        // Check platform collisions
+        // Platform collision detection
         let isOnPlatform = false;
         for (const platform of platformPositions) {
-          const nextPosition = { x: newX, y: newY };
-          if (checkCollision(nextPosition, platform)) {
-            if (prev.y > platform.y) { // Coming from above
-              newY = platform.y + 10; // Place on top of platform
+          if (checkCollision({ x: newX, y: newY }, platform)) {
+            if (prev.velocityY <= 0) {  // Only if falling
+              newY = platform.y + character.height;
               newVelocityY = 0;
               isOnPlatform = true;
-              break;
+              isJumping = false;
             }
           }
-        }
-
-        // Jumping
-        if (keysPressed.has(' ') && (isOnPlatform || newY === 0)) {
-          newVelocityY = JUMP_FORCE;
-          isOnPlatform = false;
         }
 
         // Floor collision
         if (newY <= 0) {
           newY = 0;
           newVelocityY = 0;
+          isJumping = false;
           isOnPlatform = true;
         }
 
@@ -136,6 +206,15 @@ function Skills() {
       });
     };
 
+    // Add touch event listeners
+    const gameContainer = document.querySelector('.game-container');
+    if (gameContainer) {
+      gameContainer.addEventListener('touchstart', handleTouchStart);
+      gameContainer.addEventListener('touchmove', handleTouchMove);
+      gameContainer.addEventListener('touchend', handleTouchEnd);
+      gameContainer.addEventListener('touchstart', handleTap);
+    }
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
     gameLoop = setInterval(update, 1000/60);
@@ -144,50 +223,177 @@ function Skills() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
       clearInterval(gameLoop);
+      if (gameContainer) {
+        gameContainer.removeEventListener('touchstart', handleTouchStart);
+        gameContainer.removeEventListener('touchmove', handleTouchMove);
+        gameContainer.removeEventListener('touchend', handleTouchEnd);
+        gameContainer.removeEventListener('touchstart', handleTap);
+      }
     };
-  }, [gameStarted]);
+  }, [gameStarted, isLeftPressed, isRightPressed]);
 
   const handleExit = () => {
     setGameStarted(false);
-    setCharacter({ x: 50, y: 0, velocityX: 0, velocityY: 0, isJumping: false, width: 30, height: 30, direction: 1 });
+    setCharacter({ 
+      x: 50, 
+      y: 0,
+      velocityX: 0,
+      velocityY: 0,
+      isJumping: false,
+      width: 30,
+      height: 30,
+      direction: 1
+    });
+    setIsLeftPressed(false);
+    setIsRightPressed(false);
   };
+
+  const handleJump = () => {
+    setCharacter(prev => {
+      if (!prev.isJumping) {
+        return {
+          ...prev,
+          velocityY: JUMP_FORCE,
+          isJumping: true
+        };
+      }
+      return prev;
+    });
+  };
+
+  const TOUCH_MOVEMENT_AMOUNT = 15; // Amount to move per button press
+
+  const handleMobileMove = (direction) => {
+    setCharacter(prev => {
+      const newX = prev.x + (direction * TOUCH_MOVEMENT_AMOUNT);
+      // Clamp the position between 10 and 90
+      const clampedX = Math.max(10, Math.min(90, newX));
+      
+      return {
+        ...prev,
+        x: clampedX,
+        direction: direction > 0 ? -1 : 1 // Set character direction
+      };
+    });
+  };
+
+  useEffect(() => {
+    // Prevent default touch behavior for the entire game container
+    const preventDefaultTouch = (e) => {
+      if (e.target.closest('.control-btn')) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('touchstart', preventDefaultTouch, { passive: false });
+    
+    return () => {
+      document.removeEventListener('touchstart', preventDefaultTouch);
+    };
+  }, []);
 
   return (
     <section id="skills">
-      <h2 className="game-title">SKILLS LEVEL</h2>
+      <h2 className="game-title">SKILL HEIGHTS</h2>
       {!gameStarted ? (
         <div className="game-menu">
-          <button className="game-button" onClick={() => setGameStarted(true)}>
-            PLAY
-          </button>
+          <div className="game-instructions">
+            <button className="game-button" onClick={() => setGameStarted(true)}>
+              PLAY
+            </button>
+            <div className="control-instructions">
+              <div className="keyboard-instructions">
+                <h3>Keyboard Controls</h3>
+                <p>• Left/Right Arrow - Move</p>
+                <p>• Space/Up Arrow - Jump</p>
+                <p>• Exit Button - Exit Game</p>
+              </div>
+              <div className="touch-instructions">
+                <h3>Mobile Controls</h3>
+                <p>• Left/Right Buttons - Move</p>
+                <p>• Jump Button - Jump</p>
+                <p>• Exit Button - Exit Game</p>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
-        <div className="game-container">
-          <button className="exit-button" onClick={handleExit}>EXIT</button>
-          <div className="floor"></div>
-          <div 
-            className="character" 
-            style={{ 
-              left: `${character.x}%`, 
-              bottom: `${character.y}px`,
-              transform: `translateX(-50%) scaleX(${character.direction})`
-            }}
+        <>
+          <button 
+            className="exit-button" 
+            onClick={handleExit}
+            aria-label="Exit game"
           >
-            🚶
-          </div>
-          {platformPositions.map((platform, index) => (
-            <div
-              key={index}
-              className="skill-platform"
+            EXIT
+          </button>
+          <div className="game-container">
+            <div 
+              className="game-world"
               style={{
-                left: `${platform.x}%`,
-                bottom: `${platform.y}px`
+                transform: `translateY(${-cameraY}px)`,
+                transition: 'transform 0.15s ease-out'
               }}
             >
-              {platform.name}
+              <div className="floor"></div>
+              <div 
+                className="character" 
+                style={{ 
+                  left: `${character.x}%`, 
+                  bottom: `${character.y}px`,
+                  transform: `translateX(-50%) scaleX(${character.direction})`
+                }}
+              >
+                🚶
+              </div>
+              {platformPositions.map((platform, index) => (
+                <div
+                  key={index}
+                  className="skill-platform"
+                  style={{
+                    left: `${platform.x}%`,
+                    bottom: `${platform.y}px`
+                  }}
+                >
+                  {platform.name}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+            
+            <div className="mobile-controls">
+              <div className="direction-controls">
+                <button 
+                  className="control-btn"
+                  onTouchStart={() => setIsLeftPressed(true)}
+                  onTouchEnd={() => setIsLeftPressed(false)}
+                  onMouseDown={() => setIsLeftPressed(true)}
+                  onMouseUp={() => setIsLeftPressed(false)}
+                  onMouseLeave={() => setIsLeftPressed(false)}
+                >
+                  ←
+                </button>
+                <button 
+                  className="control-btn"
+                  onTouchStart={() => setIsRightPressed(true)}
+                  onTouchEnd={() => setIsRightPressed(false)}
+                  onMouseDown={() => setIsRightPressed(true)}
+                  onMouseUp={() => setIsRightPressed(false)}
+                  onMouseLeave={() => setIsRightPressed(false)}
+                >
+                  →
+                </button>
+              </div>
+              <div className="jump-control">
+                <button 
+                  className="control-btn jump-btn"
+                  onClick={handleJump}
+                  onTouchStart={handleJump}
+                >
+                  JUMP
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </section>
   );
