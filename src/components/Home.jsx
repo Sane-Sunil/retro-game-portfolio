@@ -11,7 +11,7 @@ function Home() {
           ))}
           <span className='blinker'>_</span>
         </h1>
-        <p>Passionate web developer dedicated to creating beautiful and functional websites</p>
+        <p className='home-p'>Passionate web developer dedicated to creating beautiful and functional websites</p>
     </section>
   );
 }

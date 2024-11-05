@@ -9,9 +9,16 @@
         linear-gradient(0deg, rgba(0, 255, 204, 0.1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 255, 204, 0.1) 1px, transparent 1px);
     background-size: 20px 20px;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   }
+
+.projects-sub{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
   
   .project-title {
     text-align: center;
@@ -26,6 +33,7 @@
   .game-title {
     margin-top: 10rem;
   }
+
   .projects-container {
     display: flex;
     flex-direction: column;
@@ -232,6 +240,24 @@ li {
 
   .hotbar-grid {
     gap: 1px;
+  }
+
+  .game-menu{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+  
+  .game-button{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #invenotry-btn-txt{
+    font-size: 1.5rem;
   }
 
   .inventory-slot {

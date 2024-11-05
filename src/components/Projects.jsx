@@ -105,45 +105,47 @@ function Projects() {
 
   return (
     <section id="projects">
-      <h2 className="game-title">PROJECTS ARCHIVE</h2>
-      {!gameStarted ? (
-        <div className="game-menu">
-          <button className="game-button" onClick={() => setGameStarted(true)}>
-            INVENTORY
-          </button>
-        </div>
-      ) : (
-        <div className="minecraft-inventory">
-          <button 
-            className="exit-button" 
-            onClick={() => setGameStarted(false)}
-            aria-label="Exit inventory"
-          >
-            EXIT
-          </button>
-          <div className="tooltip-container">
-            {selectedSlot !== null && projects[selectedSlot] && 
-              renderProjectTooltip(projects[selectedSlot])
-            }
+      <div className="projects-sub">
+        <h2 className="game-title">PROJECTS ARCHIVE</h2>
+        {!gameStarted ? (
+          <div className="game-menu">
+            <button className="game-button" onClick={() => setGameStarted(true)}>
+              <span id='invenotry-btn-txt'>INVENTORY</span>
+            </button>
           </div>
-          <div className="hotbar-grid">
-            {Array(9).fill(null).map((_, index) => {
-              const project = index < projects.length ? projects[index] : null;
-              return (
-                <div 
-                  key={index} 
-                  className={`inventory-slot ${selectedSlot === index ? 'selected' : ''} ${project?.rarity || ''}`}
-                  onClick={() => handleSlotClick(index, project)}
-                >
-                  {project && (
-                    <span className="project-icon">{project.icon}</span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+        ) : (
+          <div className="minecraft-inventory">
+            <button 
+              className="exit-button" 
+              onClick={() => setGameStarted(false)}
+              aria-label="Exit inventory"
+            >
+              EXIT
+            </button>
+            <div className="tooltip-container">
+              {selectedSlot !== null && projects[selectedSlot] && 
+                renderProjectTooltip(projects[selectedSlot])
+              }
+            </div>
+            <div className="hotbar-grid">
+              {Array(9).fill(null).map((_, index) => {
+                const project = index < projects.length ? projects[index] : null;
+                return (
+                  <div 
+                    key={index} 
+                    className={`inventory-slot ${selectedSlot === index ? 'selected' : ''} ${project?.rarity || ''}`}
+                    onClick={() => handleSlotClick(index, project)}
+                  >
+                    {project && (
+                      <span className="project-icon">{project.icon}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            </div>
+          )}
+      </div>
     </section>
   );
 }

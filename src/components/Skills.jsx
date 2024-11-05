@@ -312,7 +312,8 @@ function Skills() {
                 <h3>Mobile Controls</h3>
                 <p>• Left/Right Buttons - Move</p>
                 <p>• Jump Button - Jump</p>
-                <p>• Exit Button - Exit Game</p>
+                <p>• Exit Button - Exit Game
+                </p>
               </div>
             </div>
           </div>

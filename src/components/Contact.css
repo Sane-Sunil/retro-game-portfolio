@@ -7,7 +7,7 @@
     /* background-image: 
         linear-gradient(0deg, rgba(0, 255, 204, 0.1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 255, 204, 0.1) 1px, transparent 1px); */
-    background-size: 20px 20px;
+    /* background-size: 20px 20px; */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
@@ -16,27 +16,33 @@
     width: 100%;
     height: 100%;
     min-height: calc(100vh - 40px);
-    background-color: #00000080;
+    background-color: #0d0d0d;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    margin-top: 5rem;
 }
 
 .contact-links {
-    width: 95%;
+    width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem clamp(1rem, 5vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* padding: 2rem clamp(1rem, 5vw, 2rem); */
 }
 
 .contact-item {
     display: flex;
-    align-items: center;
+    align-self: flex-start;
     gap: 0.5rem;
     margin: 1.5rem 0;
+    margin-left: 5rem;
     padding: 0.5rem;
     border-radius: 5px;
     transition: all 0.3s ease;
@@ -84,6 +90,11 @@ p {
 p:last-child {
     text-align: center;
     margin-top: 1.5rem;
+}
+
+.text-center {
+    width: 100%;
+    text-align: center;
 }
 
 /* Media Queries */
