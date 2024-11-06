@@ -2,6 +2,7 @@
     width: 100%;
     min-height: 100vh;
     margin: 20px 0;
+    /* margin-left: -1rem; */
     padding: 20px;
     background-color: var(--section-background);
     background-image: 
@@ -13,6 +14,14 @@
     overflow: hidden;
     position: relative;
   }
+
+  .skills_div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
   
   .game-title {
     text-align: center;
@@ -21,6 +30,13 @@
     text-shadow: 0 0 10px var(--primary-color),
                 0 0 20px var(--primary-color);
     margin-bottom: 2rem;
+  }
+
+  .game-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   
   .game-container {
@@ -192,12 +208,12 @@
     background-color: var(--secondary-color);
   }
 
-  .game-menu {
+  /* .game-instructions {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 80vh;
-  }
+  } */
 
   .game-button {
     padding: 20px 40px;
@@ -245,7 +261,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 20px;
+    height: 80vh;
   }
 
   .touch-instructions {
@@ -266,6 +284,9 @@
     .game-container {
       touch-action: none; /* Prevent default touch behaviors */
       user-select: none;
+    }
+    .control-instructions{
+      max-width: 90%;
     }
   }
 
@@ -416,6 +437,8 @@
     .control-instructions {
       margin-top: 30px;
       gap: 20px;
+      /* max-width: 250px; */
+      /* margin-right: 50px; */
     }
 
     .control-instructions h3 {

@@ -50,19 +50,21 @@ function About() {
   return (
     <section id="about">
       <div className="about-content">
-        <h2 className="glowing-text">About Me</h2>
-        <div className="text-container info-box">
-          <p className="typing-text">{displayText}<span className="blinker">_</span></p>
-        </div>
-        <div className="additional-info">
-          <div className="info-box">
-            <h3>Education</h3>
-            <p>Pursuing BCA</p>
-            <p>Kristu Jyoti College of Management and Technology, Changanacherry</p>
+        <h2 className="glowing-text heading">About Me</h2>
+        <div className="info_div_main">
+          <div className="text-container info-box">
+            <p className="typing-text">{displayText}<span className="blinker">_</span></p>
           </div>
-          <div className="info-box">
-            <h3>Experience</h3>
-            <p>Project Manager at Inovus Labs IEDC</p>
+          <div className="additional-info">
+            <div className="info-box">
+              <h3>Education</h3>
+              <p>Pursuing BCA</p>
+              <p>Kristu Jyoti College of Management and Technology, Changanacherry</p>
+            </div>
+            <div className="info-box">
+              <h3>Experience</h3>
+              <p>Project Manager at Inovus Labs IEDC</p>
+            </div>
           </div>
         </div>
       </div>

@@ -294,6 +294,7 @@ function Skills() {
 
   return (
     <section id="skills">
+      <div className="skills  _div">
       <h2 className="game-title">SKILL HEIGHTS</h2>
       {!gameStarted ? (
         <div className="game-menu">
@@ -395,7 +396,7 @@ function Skills() {
             </div>
           </div>
         </>
-      )}
+      )}</div>
     </section>
   );
 }

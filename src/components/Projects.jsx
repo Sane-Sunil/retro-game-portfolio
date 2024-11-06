@@ -106,7 +106,7 @@ function Projects() {
   return (
     <section id="projects">
       <div className="projects-sub">
-        <h2 className="game-title">PROJECTS ARCHIVE</h2>
+        <h2 className="game-title heading">PROJECTS ARCHIVE</h2>
         {!gameStarted ? (
           <div className="game-menu">
             <button className="game-button" onClick={() => setGameStarted(true)}>

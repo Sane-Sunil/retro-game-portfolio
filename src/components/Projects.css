@@ -11,6 +11,8 @@
     background-size: 20px 20px;
     /* border-radius: 8px; */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
   }
 
 .projects-sub{
@@ -18,36 +20,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 }
   
-  .project-title {
-    text-align: center;
-    color: var(--primary-color);
-    font-size: 2.5rem;
-    font-family: 'Press Start 2P', cursive;
-    text-shadow: 0 0 10px var(--primary-color),
-                0 0 20px var(--primary-color);
-    margin-bottom: 2rem;
-  }
+.project-title {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  font-family: 'Press Start 2P', cursive;
+  text-shadow: 0 0 10px var(--primary-color),
+              0 0 20px var(--primary-color);
+  margin-bottom: 2rem;
+}
 
-  .game-title {
-    margin-top: 10rem;
-  }
+.game-title {
+  margin-top: 10rem;
+}
 
-  .projects-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  h2 {
-    color: var(--text-color);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  }
-  
-  p {
-    color: var(--text-color);
-  }
+
+
+
+
+h2 {
+  color: var(--text-color);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+p {
+  color: var(--text-color);
+}
 
 ul {
   list-style-type: none;
@@ -85,17 +86,19 @@ li {
   grid-template-columns: repeat(9, 1fr);
   gap: 4px;
   padding: 10px;
-  background: #c6c6c6;
-  border: 2px solid #373737;
+  background: #ffffff00;
+  /* border: 2px solid #373737; */
   width: 100%;
   margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .inventory-slot {
   position: relative;
   aspect-ratio: 1;
-  min-width: 60px;
-  max-width: 80px;
+  min-width: 4rem;
   background: #8b8b8b;
   border: 2px outset #373737;
   display: flex;
@@ -216,14 +219,25 @@ li {
 
 /* Media Queries */
 @media (max-width: 768px) {
+  .projects-sub{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .minecraft-inventory {
+    max-width: 90%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .hotbar-grid {
+    max-width: 90%;
     grid-template-columns: repeat(9, 1fr);
     gap: 2px;
   }
 
   .inventory-slot {
-    min-width: 40px;
-    max-width: 60px;
+    max-width: 1px;
   }
 
   .project-tooltip {
@@ -262,11 +276,52 @@ li {
 
   .inventory-slot {
     min-width: 30px;
-    max-width: 40px;
   }
 
   .project-icon {
     font-size: 1.2rem;
+  }
+
+  .project-tooltip {
+    width: 180px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .minecraft-inventory {
+    width: 100%;
+    padding: 5px;
+  }
+
+  .hotbar-grid {
+    gap: 1px;
+  }
+
+  .game-menu{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+  
+  .game-button{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #invenotry-btn-txt{
+    font-size: 1.5rem;
+  }
+
+  .inventory-slot {
+    min-width: 20px;
+  }
+
+  .project-icon {
+    font-size: 1rem;
   }
 
   .project-tooltip {
